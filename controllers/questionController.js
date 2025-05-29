@@ -15,7 +15,8 @@ exports.askQuestion = async (req, res) => {
     // Use FULLTEXT search to find the most relevant cached answer
     const [cachedResults] = await db.query(
       `SELECT answer_text FROM knowledge_base 
-       WHERE MATCH(question_keywords) AGAINST(? IN NATURAL LANGUAGE MODE) LIMIT 1`,
+   WHERE question_keywords LIKE CONCAT('%', ?, '%') 
+   LIMIT 1`,
       [question]
     );
 
